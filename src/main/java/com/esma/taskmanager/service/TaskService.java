@@ -4,6 +4,7 @@ package com.esma.taskmanager.service;
 import com.esma.taskmanager.dto.TaskRequest;
 import com.esma.taskmanager.dto.TaskResponse;
 import com.esma.taskmanager.entity.Task;
+import com.esma.taskmanager.entity.TaskStatus;
 import com.esma.taskmanager.exception.TaskNotFoundException;
 import com.esma.taskmanager.mapper.TaskMapper;
 import com.esma.taskmanager.repository.TaskRepository;
@@ -44,12 +45,12 @@ public class TaskService {
         return taskRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
-    public Page<Task> searchTasksByNameAndCompletion(String name, boolean completed, Pageable pageable){
-        return taskRepository.findByNameContainingAndCompleted(name, completed, pageable);
+    public Page<Task> searchTasksByNameAndStatus(String name, TaskStatus status, Pageable pageable){
+        return taskRepository.findByNameContainingIgnoreCaseAndStatus(name, status, pageable);
     }
 
-    public Page<Task> getTasksByCompletion(boolean status, Pageable pageable){
-        return taskRepository.findTasksByCompletionStatus(status, pageable);
+    public Page<Task> getTasksByStatus(TaskStatus status, Pageable pageable){
+        return taskRepository.findByStatus(status, pageable);
     }
 
     public TaskResponse createTask(TaskRequest task){
@@ -74,17 +75,18 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    public List<TaskResponse> getTasksByCompletionStatus(boolean status){
-        final List<Task> completedTasks = taskRepository.findByCompleted(status);
-        return completedTasks.stream()
+    public List<TaskResponse> getTasksByStatus(TaskStatus status){
+        final List<Task> tasks = taskRepository.findByStatus(status);
+        return tasks.stream()
                 .map(taskMapper::toResponse)
                 .toList();
     }
 
-    public Page<TaskResponse> getTasksByCompletionStatus(boolean status,
-                                                         Pageable pageable){
-        final Page<Task> completedTasks = taskRepository.findByCompleted(status, pageable);
-        return completedTasks.map(taskMapper::toResponse);
+    public TaskResponse updateTaskStatus(Long id, TaskStatus status){
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+        task.setStatus(status);
+        return taskMapper.toResponse(taskRepository.save(task));
     }
 
     public List<Task> getSearchTasksByName(String name){

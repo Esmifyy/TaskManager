@@ -1,5 +1,6 @@
 package com.esma.taskmanager.dto;
 
+import com.esma.taskmanager.entity.TaskStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -10,7 +11,7 @@ public record TaskRequest(
 
         @Size(min = 3, max = 500, message = "Description must be less than 500 characters")
         String description,
-        Boolean completed,
+        TaskStatus status,
         Long categoryId
 ) {
 }

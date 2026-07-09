@@ -27,6 +27,42 @@
 
     </div>
 
+    <form th:action="@{/tasks/create}" th:object="${newTask}" method="post">
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Beschreibung</label>
+            <textarea id="description" th:field="*{description}" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="categoryId" class="form-label">Kategorie</label>
+            <select id="categoryId" th:field="*{categoryId}" class="form-select">
+                <option value="">Keine</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" th:field="*{status}" class="form-select">
+                <option value="OFFEN">Offen</option>
+                <option value="IN_BEARBEITUNG">In Bearbeitung</option>
+                <option value="DEPLOYED">Deployed</option>
+                <option value="FERTIG">Fertig</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Task erstellen</button>
+
+    </form>
+
 </div>
 
 </body>

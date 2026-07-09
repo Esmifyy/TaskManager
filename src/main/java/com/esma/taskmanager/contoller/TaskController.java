@@ -3,6 +3,7 @@ package com.esma.taskmanager.contoller;
 import com.esma.taskmanager.dto.TaskRequest;
 import com.esma.taskmanager.dto.TaskResponse;
 import com.esma.taskmanager.entity.Task;
+import com.esma.taskmanager.entity.TaskStatus;
 import com.esma.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public class TaskController {
     @GetMapping("/search")
     public ResponseEntity<Map<String, Object>> searchTasks(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Boolean completed,
+            @RequestParam(required = false) TaskStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
@@ -45,17 +46,17 @@ public class TaskController {
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Task> taskPage;
 
-        if(name != null && completed != null){
+        if(name != null && status != null){
             // Filter by both
-            taskPage = taskService.searchTasksByNameAndCompletion(
-                    name, completed, pageable
+            taskPage = taskService.searchTasksByNameAndStatus(
+                    name, status, pageable
             );
         }else if(name != null){
             //Filter by name only
             taskPage = taskService.searchTasksByName(name, pageable);
-        }else if(completed != null){
-            //Filter by completion only
-            taskPage = taskService.getTasksByCompletion(completed, pageable);
+        }else if(status != null){
+            //Filter by status only
+            taskPage = taskService.getTasksByStatus(status, pageable);
         }else{
             taskPage = taskService.getAllTasks(pageable);
         }
@@ -66,7 +67,7 @@ public class TaskController {
                         task.getId(),
                         task.getName(),
                         task.getDescription(),
-                        task.getCompleted(),
+                        task.getStatus(),
                         task.getCreatedAt(),
                         null))
                 .toList();
@@ -102,7 +103,7 @@ public class TaskController {
                         task.getId(),
                         task.getName(),
                         task.getDescription(),
-                        task.getCompleted(),
+                        task.getStatus(),
                         task.getCreatedAt(),
                         null))
                 .toList();
@@ -128,9 +129,9 @@ public class TaskController {
         return taskService.getTaskById(id);
     }
 
-    @GetMapping("/completed/{status}")
-    public List<TaskResponse> getTasksByCompletions(@PathVariable boolean status){
-        return taskService.getTasksByCompletionStatus(status);
+    @GetMapping("/status/{status}")
+    public List<TaskResponse> getTasksByStatus(@PathVariable TaskStatus status){
+        return taskService.getTasksByStatus(status);
     }
 
     @GetMapping("/search-by-Name")

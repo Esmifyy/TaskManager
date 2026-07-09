@@ -1,16 +1,17 @@
 package com.esma.taskmanager.contoller;
 
 import com.esma.taskmanager.dto.TaskRequest;
-import com.esma.taskmanager.entity.Category;
+import com.esma.taskmanager.entity.TaskStatus;
 import com.esma.taskmanager.service.CategoryService;
 import com.esma.taskmanager.service.TaskService;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/tasks")
@@ -26,17 +27,10 @@ public class TaskViewController {
 
     @GetMapping
     public String showTasks(Model model){
-        model.addAttribute("tasks", taskService.getAllTasks(PageRequest.of(0, 100)).getContent());
-
-        model.addAttribute(
-                "newTask",
-                new TaskRequest(
-                        "",
-                        "",
-                        false,
-                        null
-                )
-        );
+        model.addAttribute("offenTasks", taskService.getTasksByStatus(TaskStatus.OFFEN));
+        model.addAttribute("inBearbeitungTasks", taskService.getTasksByStatus(TaskStatus.IN_BEARBEITUNG));
+        model.addAttribute("deployedTasks", taskService.getTasksByStatus(TaskStatus.DEPLOYED));
+        model.addAttribute("fertigTasks", taskService.getTasksByStatus(TaskStatus.FERTIG));
 
         return "tasks";
     }
@@ -49,10 +43,11 @@ public class TaskViewController {
                 new TaskRequest(
                         "",
                         "",
-                        false,
+                        TaskStatus.OFFEN,
                         null
                 )
         );
+        model.addAttribute("categories", categoryService.findAll());
 
         return "create-task";
     }
@@ -62,6 +57,16 @@ public class TaskViewController {
             @ModelAttribute TaskRequest taskRequest){
 
         taskService.createTask(taskRequest);
+
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/{id}/status")
+    public String updateStatus(
+            @PathVariable Long id,
+            @RequestParam TaskStatus status){
+
+        taskService.updateTaskStatus(id, status);
 
         return "redirect:/tasks";
     }

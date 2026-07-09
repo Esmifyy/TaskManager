@@ -5,6 +5,7 @@ import com.esma.taskmanager.dto.TaskRequest;
 import com.esma.taskmanager.dto.TaskResponse;
 import com.esma.taskmanager.entity.Category;
 import com.esma.taskmanager.entity.Task;
+import com.esma.taskmanager.entity.TaskStatus;
 import com.esma.taskmanager.service.CategoryService;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +29,7 @@ public class TaskMapper {
         return Task.builder()
                 .name(request.name())
                 .description(request.description())
-                .completed(request.completed() != null ? request.completed() : false)
+                .status(request.status() != null ? request.status() : TaskStatus.OFFEN)
                 .category(category)
                 .build();
     }
@@ -49,7 +50,7 @@ public class TaskMapper {
                 .id(task.getId())
                 .name(task.getName())
                 .description(task.getDescription())
-                .completed(task.getCompleted())
+                .status(task.getStatus())
                 .createdAt(task.getCreatedAt())
                 .category(categoryResponse)
                 .build();
@@ -58,7 +59,7 @@ public class TaskMapper {
     public void updateEntityFromRequest(Task task, TaskRequest request){
         task.setName(request.name());
         task.setDescription(request.description());
-        task.setCompleted(request.completed());
+        task.setStatus(request.status() != null ? request.status() : TaskStatus.OFFEN);
 
         if (request.categoryId() != null){
             task.setCategory(categoryService.findById(request.categoryId()));
