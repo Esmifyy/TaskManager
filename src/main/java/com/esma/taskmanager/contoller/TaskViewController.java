@@ -1,6 +1,7 @@
 package com.esma.taskmanager.contoller;
 
 import com.esma.taskmanager.dto.TaskRequest;
+import com.esma.taskmanager.dto.TaskResponse;
 import com.esma.taskmanager.entity.TaskStatus;
 import com.esma.taskmanager.service.CategoryService;
 import com.esma.taskmanager.service.TaskService;
@@ -67,6 +68,43 @@ public class TaskViewController {
             @RequestParam TaskStatus status){
 
         taskService.updateTaskStatus(id, status);
+
+        return "redirect:/tasks";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editTaskPage(@PathVariable Long id, Model model){
+        TaskResponse task = taskService.getTaskById(id);
+
+        model.addAttribute(
+                "editTask",
+                new TaskRequest(
+                        task.name(),
+                        task.description(),
+                        task.status(),
+                        task.category() != null ? task.category().categoryId() : null
+                )
+        );
+        model.addAttribute("taskId", id);
+        model.addAttribute("categories", categoryService.findAll());
+
+        return "edit-task";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editTask(
+            @PathVariable Long id,
+            @ModelAttribute TaskRequest taskRequest){
+
+        taskService.updateTask(id, taskRequest);
+
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteTask(@PathVariable Long id){
+
+        taskService.deleteTaskById(id);
 
         return "redirect:/tasks";
     }
