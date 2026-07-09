@@ -1,3 +1,10 @@
+:root {
+    --bs-primary: #5a4fcf;
+    --bs-primary-rgb: 90, 79, 207;
+    --bs-border-radius: 0.6rem;
+    --bs-border-radius-sm: 0.4rem;
+}
+
 .kanban-column {
     background-color: #f1f3f5;
     border-radius: 8px;
@@ -9,4 +16,5 @@
 
 .kanban-card {
     border-left: 4px solid #adb5bd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
