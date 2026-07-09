@@ -9,8 +9,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model){
-        model.addAttribute("message", "Hallo Welt");
+        model.addAttribute("message", "Task Manager");
         return "index";
     }
+
+
 
 }

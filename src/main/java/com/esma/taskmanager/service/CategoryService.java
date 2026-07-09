@@ -4,6 +4,8 @@ import com.esma.taskmanager.entity.Category;
 import com.esma.taskmanager.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
 
@@ -19,6 +21,10 @@ public class CategoryService {
 
     public Category create(Category category){
         return categoryRepository.save(category);
+    }
+
+    public List<Category> findAll(){
+        return categoryRepository.findAll();
     }
 
 }

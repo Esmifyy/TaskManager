@@ -138,7 +138,7 @@ public class TaskController {
         return taskService.getSearchTasksByName(name);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskRequest task){
         TaskResponse savedTask = taskService.createTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
