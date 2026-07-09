@@ -28,12 +28,13 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.OFFEN;
 
+    @Enumerated(EnumType.STRING)
+    private TaskCategory category;
+
+    private Integer priority = 2;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
 
     @PrePersist
     protected void onCreate(){

@@ -3,7 +3,6 @@ package com.esma.taskmanager.contoller;
 import com.esma.taskmanager.dto.TaskRequest;
 import com.esma.taskmanager.dto.TaskResponse;
 import com.esma.taskmanager.entity.TaskStatus;
-import com.esma.taskmanager.service.CategoryService;
 import com.esma.taskmanager.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class TaskViewController {
 
     private final TaskService taskService;
-    private final CategoryService categoryService;
 
-    public TaskViewController(TaskService taskService,  CategoryService categoryService) {
+    public TaskViewController(TaskService taskService) {
         this.taskService = taskService;
-        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -45,10 +42,10 @@ public class TaskViewController {
                         "",
                         "",
                         TaskStatus.OFFEN,
-                        null
+                        null,
+                        2
                 )
         );
-        model.addAttribute("categories", categoryService.findAll());
 
         return "create-task";
     }
@@ -82,11 +79,11 @@ public class TaskViewController {
                         task.name(),
                         task.description(),
                         task.status(),
-                        task.category() != null ? task.category().categoryId() : null
+                        task.category(),
+                        task.priority()
                 )
         );
         model.addAttribute("taskId", id);
-        model.addAttribute("categories", categoryService.findAll());
 
         return "edit-task";
     }

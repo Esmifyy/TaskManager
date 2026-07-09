@@ -34,7 +34,9 @@
           <div class="card-body">
             <h6 class="card-title" th:text="${task.name}"></h6>
             <p class="card-text small" th:text="${task.description}"></p>
-            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category.name}"></span>
+            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category}"></span>
+            <span th:text="'Prio ' + ${task.priority}"
+                  th:class="${task.priority == 3} ? 'badge bg-danger' : (${task.priority == 2} ? 'badge bg-warning text-dark' : 'badge bg-secondary')"></span>
 
             <form th:action="@{/tasks/{id}/status(id=${task.id})}" method="post" class="mt-2 d-flex gap-2">
               <select name="status" class="form-select form-select-sm">
@@ -66,7 +68,9 @@
           <div class="card-body">
             <h6 class="card-title" th:text="${task.name}"></h6>
             <p class="card-text small" th:text="${task.description}"></p>
-            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category.name}"></span>
+            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category}"></span>
+            <span th:text="'Prio ' + ${task.priority}"
+                  th:class="${task.priority == 3} ? 'badge bg-danger' : (${task.priority == 2} ? 'badge bg-warning text-dark' : 'badge bg-secondary')"></span>
 
             <form th:action="@{/tasks/{id}/status(id=${task.id})}" method="post" class="mt-2 d-flex gap-2">
               <select name="status" class="form-select form-select-sm">
@@ -98,7 +102,9 @@
           <div class="card-body">
             <h6 class="card-title" th:text="${task.name}"></h6>
             <p class="card-text small" th:text="${task.description}"></p>
-            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category.name}"></span>
+            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category}"></span>
+            <span th:text="'Prio ' + ${task.priority}"
+                  th:class="${task.priority == 3} ? 'badge bg-danger' : (${task.priority == 2} ? 'badge bg-warning text-dark' : 'badge bg-secondary')"></span>
 
             <form th:action="@{/tasks/{id}/status(id=${task.id})}" method="post" class="mt-2 d-flex gap-2">
               <select name="status" class="form-select form-select-sm">
@@ -130,7 +136,9 @@
           <div class="card-body">
             <h6 class="card-title" th:text="${task.name}"></h6>
             <p class="card-text small" th:text="${task.description}"></p>
-            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category.name}"></span>
+            <span class="badge bg-light text-dark" th:if="${task.category}" th:text="${task.category}"></span>
+            <span th:text="'Prio ' + ${task.priority}"
+                  th:class="${task.priority == 3} ? 'badge bg-danger' : (${task.priority == 2} ? 'badge bg-warning text-dark' : 'badge bg-secondary')"></span>
 
             <form th:action="@{/tasks/{id}/status(id=${task.id})}" method="post" class="mt-2 d-flex gap-2">
               <select name="status" class="form-select form-select-sm">

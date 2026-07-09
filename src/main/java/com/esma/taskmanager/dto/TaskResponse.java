@@ -1,7 +1,7 @@
 package com.esma.taskmanager.dto;
 
 
-import com.esma.taskmanager.entity.Category;
+import com.esma.taskmanager.entity.TaskCategory;
 import com.esma.taskmanager.entity.TaskStatus;
 import lombok.Builder;
 
@@ -13,7 +13,8 @@ public record TaskResponse(
         String name,
         String description,
         TaskStatus status,
-        LocalDateTime createdAt,
-        CategoryResponse category
+        TaskCategory category,
+        Integer priority,
+        LocalDateTime createdAt
 ) {
 }

@@ -40,12 +40,13 @@
         </div>
 
         <div class="mb-3">
-            <label for="categoryId" class="form-label">Kategorie</label>
-            <select id="categoryId" th:field="*{categoryId}" class="form-select">
+            <label for="category" class="form-label">Kategorie</label>
+            <select id="category" th:field="*{category}" class="form-select">
                 <option value="">Keine</option>
-                <option th:each="category : ${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}"></option>
+                <option value="BUG">Bug</option>
+                <option value="FRONTEND">Frontend</option>
+                <option value="BACKEND">Backend</option>
+                <option value="PLANUNG">Planung</option>
             </select>
         </div>
 
@@ -56,6 +57,15 @@
                 <option value="IN_BEARBEITUNG">In Bearbeitung</option>
                 <option value="DEPLOYED">Deployed</option>
                 <option value="FERTIG">Fertig</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priorität</label>
+            <select id="priority" th:field="*{priority}" class="form-select">
+                <option value="1">1 - Entspannt</option>
+                <option value="2">2 - Normal</option>
+                <option value="3">3 - Dringend</option>
             </select>
         </div>
 
